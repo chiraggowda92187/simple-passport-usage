@@ -5,21 +5,32 @@ const app = express()
 import cors from "cors"
 import session from "express-session"
 import passport from "passport"
+import cookieparser from "cookie-parser"
 
 
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: 'GET, POST, PUT, DELETE',
+  })
+);
 app.use(express.json())
+app.use(cookieparser())
+app.use(express.urlencoded({extended : false}))
 
-app.use(cors({
-    origin : "http://localhost:5173",
-    methods : "GET, POST, PUT, DELETE"
-}))
+
+
 // initPassport()
-app.use(session({
+
+
+app.use(
+  session({
     secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true }
-}))
+    resave: false,
+    saveUninitialized: false,
+    
+  })
+);
 
 app.use(passport.session())
 
